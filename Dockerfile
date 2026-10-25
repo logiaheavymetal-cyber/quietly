@@ -1,9 +1,8 @@
 # Quietly + SearXNG en un solo contenedor (pensado para Render, plan gratuito)
 FROM searxng/searxng:latest
 USER root
-RUN (apk add --no-cache nodejs) || (apt-get update && apt-get install -y --no-install-recommends nodejs && rm -rf /var/lib/apt/lists/*)
 WORKDIR /app
-COPY server.js /app/server.js
+COPY server.py /app/server.py
 COPY index.html /app/public/index.html
 COPY settings.yml /etc/searxng/settings.yml
 COPY start.sh /start.sh
