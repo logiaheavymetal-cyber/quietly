@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<title>Quietly</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f8;--ink:#0e1a24;--mut:#5b6b78;--line:#d5dce2;--acc:#2b4bff;--on:#fff;--card:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1016;--ink:#e8eef3;--mut:#8b9bab;--line:#243140;--acc:#8fa2ff;--on:#0b1016;--card:#121a23;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1016;--ink:#e8eef3;--mut:#8b9bab;--line:#243140;--acc:#8fa2ff;--on:#0b1016;--card:#121a23;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.5 'Instrument Sans',system-ui,sans-serif}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.logo{font:800 clamp(44px,11vw,68px)/1 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.04em;margin:0;cursor:pointer;background:none;border:0;padding:0}
+.logo.s{font-size:24px}
+.top{display:flex;justify-content:flex-end;padding:14px 18px}
+.ic{background:none;border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer;color:var(--mut);font-size:14px}
+.home{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:68vh;padding:0 18px;gap:26px}
+.box{display:flex;align-items:center;width:min(640px,100%);background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:4px 6px 4px 18px}
+.box:focus-within{border-color:var(--acc)}
+.box input{flex:1;min-width:0;border:0;background:none;outline:0;font-size:18px;padding:14px 0}
+.go{width:44px;height:44px;border:0;border-radius:12px;background:var(--acc);color:var(--on);cursor:pointer;display:grid;place-items:center}
+.tabs{display:flex;gap:4px}
+.tab{background:none;border:0;border-bottom:2px solid transparent;padding:8px 14px;cursor:pointer;color:var(--mut)}
+.tab[aria-selected="true"]{color:var(--ink);border-color:var(--acc);font-weight:500}
+.note{color:var(--mut);font-size:14px;text-align:center;max-width:420px;margin:0}
+.res{display:none}
+.bar{display:flex;align-items:center;gap:16px;padding:12px 18px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.bar .box{width:min(560px,100%);flex:1 1 260px;padding-left:14px}
+.bar .box input{font-size:16px;padding:10px 0}
+.bar .go{width:36px;height:36px}
+.res .tabs{padding:0 12px;border-bottom:1px solid var(--line);overflow-x:auto}
+.list{max-width:720px;padding:18px;margin:0 auto}
+.meta{color:var(--mut);font-size:13px;margin:0 0 18px}
+.r{margin:0 0 24px}
+.r .u{color:var(--mut);font-size:13px;margin:0;overflow-wrap:anywhere}
+.r h3{margin:2px 0;font:600 19px/1.3 'Bricolage Grotesque',system-ui,sans-serif}
+.r h3 a{color:var(--acc);text-decoration:none}
+.r h3 a:hover{text-decoration:underline}
+.r p{margin:0;font-size:15px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.chip{background:none;border:1px solid var(--line);border-radius:20px;padding:5px 14px;cursor:pointer;font-size:14px;color:var(--mut)}
+.chip[aria-pressed="true"]{border-color:var(--acc);color:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.im{display:block;aspect-ratio:4/3;border-radius:10px;background:var(--line);overflow:hidden}
+.im img{width:100%;height:100%;object-fit:cover;display:block}
+.f{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.f b{flex:none;width:50px;text-align:center;border:1.5px solid var(--acc);color:var(--acc);border-radius:6px;font-size:12px;padding:3px 0}
+.f div{min-width:0}
+.f a{font-weight:500;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f p{margin:0;color:var(--mut);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.more{display:block;margin:20px auto;padding:10px 22px;background:none;border:1.5px solid var(--line);border-radius:12px;cursor:pointer}
+.err{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--card);font-size:15px}
+#cfg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:5}
+#cfg.on{display:flex}
+#cfg form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;width:min(440px,100%);display:grid;gap:12px}
+#cfg h2{margin:0;font:600 20px 'Bricolage Grotesque',system-ui,sans-serif}
+#cfg label{display:grid;gap:4px;font-size:14px;color:var(--mut)}
+#cfg input,#cfg select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:15px;color:var(--ink)}
+#cfg .row{display:flex;gap:10px;justify-content:flex-end}
+.pri{background:var(--acc);color:var(--on);border:0;border-radius:10px;padding:9px 18px;cursor:pointer}
+</style></head><body>
+<div id="home">
+ <div class="top"><button class="ic" data-cfg>Ajustes</button></div>
+ <main class="home">
+  <h1 class="logo">quietly</h1>
+  <div class="box"><input id="q1" type="search" placeholder="Busca en silencio" aria-label="Buscar" autocomplete="off"><button class="go" data-go aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4"/></svg></button></div>
+  <div class="tabs" role="tablist"></div>
+  <p class="note">Sin rastreo, sin historial y sin perfiles. Tus búsquedas no se guardan.</p>
+ </main>
+</div>
+<div class="res" id="res">
+ <div class="bar"><button class="logo s" data-home>quietly</button>
+  <div class="box"><input id="q2" type="search" aria-label="Buscar" autocomplete="off"><button class="go" data-go aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4"/></svg></button></div>
+  <button class="ic" data-cfg>Ajustes</button></div>
+ <div class="tabs" role="tablist"></div>
+ <div class="list" id="list"></div>
+</div>
+<div id="cfg"><form id="cf">
+ <h2>Ajustes</h2>
+ <label>Dirección de tu instancia SearXNG<input id="cu" type="url" placeholder="https://busca.tudominio.com"></label>
+ <label>Filtro de contenido<select id="cs"><option value="0">Sin filtro</option><option value="1">Moderado</option><option value="2">Estricto</option></select></label>
+ <p class="meta" style="margin:0">Sin dirección, Quietly funciona en modo demostración con resultados de ejemplo. Tu instancia debe permitir el formato JSON y las peticiones desde este sitio.</p>
+ <div class="row"><button type="button" class="ic" data-close>Cancelar</button><button class="pri" type="submit">Guardar</button></div>
+</form></div>
+<script>
+const T=[['web','Web'],['img','Imágenes'],['file','Archivos']],FT={Todos:'',PDF:'pdf',Documentos:'docx',Hojas:'xlsx',Presentaciones:'pptx',Comprimidos:'zip'};
+const ls=(k,v)=>{try{return v===undefined?localStorage.getItem(k):localStorage.setItem(k,v)}catch(e){return null}};
+let cfg={url:ls('q_url')||'',safe:ls('q_safe')||'1'},tab='web',q='',ft='Todos',page=1,busy=false;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safe=u=>/^https?:\/\//i.test(u||'')?esc(u):'#';
+const host=u=>{try{return new URL(u).hostname}catch(e){return ''}};
+function tabs(){$$('.tabs').forEach(b=>{b.innerHTML=T.map(([k,n])=>`<button class="tab" role="tab" data-t="${k}" aria-selected="${k===tab}">${n}</button>`).join('')})}
+function demo(){const n=tab==='img'?12:6,x=['pdf','docx','xlsx','pptx','zip','pdf'];
+ return Array.from({length:n},(_,i)=>({title:`${q}: resultado de ejemplo ${i+1+(page-1)*n}`,url:`https://ejemplo${i+1}.org/${encodeURIComponent(q)}${tab==='file'?'.'+(FT[ft]||x[i%6]):''}`,content:'Fragmento de ejemplo con tus palabras. Conecta tu instancia en Ajustes para ver resultados reales.'}))}
+async function fetchRes(){
+ if(!cfg.url)return demo();
+ const u=new URL('/search',cfg.url),extra=tab==='file'&&FT[ft]?' filetype:'+FT[ft]:'';
+ u.search=new URLSearchParams({q:q+extra,format:'json',categories:{web:'general',img:'images',file:'files'}[tab],pageno:page,safesearch:cfg.safe});
+ const r=await fetch(u,{credentials:'omit',referrerPolicy:'no-referrer'});
+ if(!r.ok)throw new Error('HTTP '+r.status);
+ return (await r.json()).results||[];
+}
+function row(r){
+ if(tab==='img'){const s=r.thumbnail_src||r.img_src;return `<a class="im" href="${safe(r.url)}" target="_blank" rel="noopener noreferrer nofollow" title="${esc(r.title)}">${s&&/^https?:|^\//.test(s)?`<img src="${esc(s)}" alt="${esc(r.title)}" loading="lazy" referrerpolicy="no-referrer">`:''}</a>`}
+ if(tab==='file'){const e=((r.url||'').split('?')[0].split('.').pop()||'').slice(0,4).toUpperCase();return `<div class="f"><b>${esc(e.length<5&&e?e:'ARCH')}</b><div><a href="${safe(r.url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(r.title||r.url)}</a><p>${esc(host(r.url))}${r.filesize?' · '+esc(r.filesize):''}</p></div></div>`}
+ return `<div class="r"><p class="u">${esc(host(r.url))}</p><h3><a href="${safe(r.url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(r.title||r.url)}</a></h3><p>${esc(r.content)}</p></div>`}
+function shell(){
+ const chips=tab==='file'?'<div class="chips">'+Object.keys(FT).map(c=>`<button class="chip" data-f="${c}" aria-pressed="${c===ft}">${c}</button>`).join('')+'</div>':'';
+ $('#list').innerHTML=(cfg.url?'':'<p class="meta">Modo demostración: resultados de ejemplo. Conecta tu instancia en Ajustes para buscar de verdad.</p>')+chips+`<div id="out" class="${tab==='img'?'grid':''}"><p class="meta">Buscando…</p></div><div id="mw"></div>`}
+async function run(more){
+ if(busy||!q)return;busy=true;
+ if(!more){page=1;shell()}else page++;
+ try{const rs=await fetchRes(),o=$('#out');
+  if(!more)o.innerHTML='';
+  if(!rs.length&&!more)o.innerHTML='<p class="meta">Sin resultados. Prueba con otras palabras.</p>';
+  o.insertAdjacentHTML('beforeend',rs.map(row).join(''));
+  $('#mw').innerHTML=rs.length?'<button class="more" data-more>Más resultados</button>':'';
+ }catch(e){const m=$('#out');if(more){page--;return}
+  m.innerHTML=`<div class="err">No se pudo conectar con tu instancia. Revisa la dirección en Ajustes, que el formato JSON esté activado y que permita peticiones desde este sitio. (${esc(e.message)})</div>`}
+ finally{busy=false}}
+function go(v){v=(v||'').trim();if(!v)return;q=v;$('#home').style.display='none';$('#res').style.display='block';$('#q2').value=q;tabs();run()}
+document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+ if(t.dataset.t){tab=t.dataset.t;tabs();if(q)run()}
+ else if(t.dataset.f){ft=t.dataset.f;run()}
+ else if(t.dataset.more===''){run(true)}
+ else if(t.dataset.go===''){go($('#home').style.display==='none'?$('#q2').value:$('#q1').value)}
+ else if(t.dataset.home===''){$('#res').style.display='none';$('#home').style.display='';$('#q1').value='';q=''}
+ else if(t.dataset.cfg===''){$('#cu').value=cfg.url;$('#cs').value=cfg.safe;$('#cfg').classList.add('on');$('#cu').focus()}
+ else if(t.dataset.close===''){$('#cfg').classList.remove('on')}});
+$('#cf').addEventListener('submit',e=>{e.preventDefault();let u=$('#cu').value.trim();
+ if(u&&!/^https?:\/\//i.test(u))u='https://'+u;
+ cfg={url:u.replace(/\/+$/,''),safe:$('#cs').value};ls('q_url',cfg.url);ls('q_safe',cfg.safe);
+ $('#cfg').classList.remove('on');if(q)run()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'&&e.target.type==='search')go(e.target.value);if(e.key==='Escape')$('#cfg').classList.remove('on')});
+tabs();
+</script></body></html>
